@@ -69,5 +69,15 @@ cols = list(poke_df.columns.values)
 # reset/save dataframe ref var to df at columns index 0-4, new col, 5- last old col
 poke_df = poke_df[cols[0:4] + [cols[-1]] + cols[4:12]]
 
-
 poke_df.head(5)
+
+#####   SAVING DATA / EXPORTING INTO DESIRED FORMAT
+# poke_df.to_csv('modified.csv')
+poke_df.to_csv('modified.csv', index=False) #eliminate the index column 
+# poke_df.to_excel('modified.xlsx', index=False)
+poke_df.to_csv('modified.txt', index=False, sep='\t')
+
+#####   FILTERING DATA
+
+
+
