@@ -54,9 +54,20 @@ poke_df.sort_values(['Type 1', 'HP'], ascending=[1,0])
 
 
 #####   MAKE CHANGES to DATA
+# adding stat columns total to make new total column
+## very readable way of summing totals
+poke_df['Total_Stat'] = poke_df['HP'] + poke_df['Attack'] + poke_df['Defense'] + poke_df['Sp. Atk'] + poke_df['Sp. Def'] + poke_df['Speed']
+poke_df.head(5)
+# drop that new column
+poke_df = poke_df.drop(columns=['Total_Stat'])
+# Add Total_Stat column, using loc and sum() function
+poke_df['Total_Stat'] = poke_df.loc[:, 'HP':'Speed'].sum(axis=1)    ## add horizontally (for each row)
+
+# Bump new column to start of stats
+## save column names as a list
+cols = list(poke_df.columns.values)
+# reset/save dataframe ref var to df at columns index 0-4, new col, 5- last old col
+poke_df = poke_df[cols[0:4] + [cols[-1]] + cols[4:12]]
 
 
-
-
-
-
+poke_df.head(5)
