@@ -43,3 +43,20 @@ poke_df.loc[poke_df['Type 1'] == "Fire"]
 
 
 #####   SORT/DESCRIBING DATA
+poke_df.describe()  # gives high-level type stats (count/mean/standardDeviation/min/max/etc.)
+poke_df.sort_values('Name')
+# reverse order
+poke_df.sort_values('Name', ascending=False)
+# sort based on multi columns
+poke_df.sort_values(['Type 1', 'HP'])
+# sort multi columns - first column ascending, 2nd column descending
+poke_df.sort_values(['Type 1', 'HP'], ascending=[1,0])
+
+
+#####   MAKE CHANGES to DATA
+
+
+
+
+
+
