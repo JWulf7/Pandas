@@ -38,3 +38,8 @@ for index, row in poke_df.iterrows():
     print(index, row)
 for index, row in poke_df.iterrows():
     print(index, row['Name'])
+# peek rows with "Fire"
+poke_df.loc[poke_df['Type 1'] == "Fire"]
+
+
+#####   SORT/DESCRIBING DATA
