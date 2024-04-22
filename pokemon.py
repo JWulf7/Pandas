@@ -1,5 +1,6 @@
 # Loading Data into Pandas
 import pandas as pd
+import re
 
 # Create dataframe from csv data
 ## to run file in interactive jupyter
@@ -78,6 +79,37 @@ poke_df.to_csv('modified.csv', index=False) #eliminate the index column
 poke_df.to_csv('modified.txt', index=False, sep='\t')
 
 #####   FILTERING DATA
+# filter on multiple columns and
+poke_df.loc[(poke_df['Type 1'] == 'Grass') & (poke_df['Type 2'] == 'Poison')]
+# filter on multiple columns or
+poke_df.loc[(poke_df['Type 1'] == 'Grass') | (poke_df['Type 2'] == 'Poison')]
+# filter on multiple columns and numerical conditions
+new_df = poke_df.loc[(poke_df['Type 1'] == 'Grass') & (poke_df['Type 2'] == 'Poison') & (poke_df['HP'] > 70)]
+## can make checkpoint here if want
+# new_df.to_csv('filtered.csv', index=False)
+## reset indexes of carried over filtered data indexes, and drop the default added old indexes column, also modify existing df
+new_df.reset_index(drop=True, inplace=True)
+
+# filter only contains string
+poke_df.loc[poke_df['Name'].str.contains('Mega')]
+# filter OUT contains string
+poke_df.loc[~poke_df['Name'].str.contains('Mega')]
+
+# filter w/ regex
+poke_df.loc[poke_df['Type 1'].str.contains('Fire|Grass', regex=True)]
+poke_df.loc[poke_df['Type 1'].str.contains('fire|grass', flags=re.I, regex=True)]   # ignore case of strings
+
+# Get all poke names start w/ 'pi'
+poke_df.loc[poke_df['Name'].str.startswith('Pi')]
+## same w/ regex
+poke_df.loc[poke_df['Name'].str.contains('^pi[a-z]*', flags=re.I, regex=True)]
+
+#####   CONDITIONAL CHANGES
+
+
+
+
+
 
 
 
