@@ -12,6 +12,10 @@ poke_df = pd.read_csv('pokemon_data.csv')
 df_xlsx = pd.read_excel('pokemon_data.xlsx')
 df_txt = pd.read_csv('pokemon_data.txt', delimiter='\t')
 
+
+
+
+
 ##### PEEK DATA
 print(poke_df.head(3))
 print(poke_df.tail(3))
@@ -43,6 +47,9 @@ for index, row in poke_df.iterrows():
 poke_df.loc[poke_df['Type 1'] == "Fire"]
 
 
+
+
+
 #####   SORT/DESCRIBING DATA
 poke_df.describe()  # gives high-level type stats (count/mean/standardDeviation/min/max/etc.)
 poke_df.sort_values('Name')
@@ -52,6 +59,9 @@ poke_df.sort_values('Name', ascending=False)
 poke_df.sort_values(['Type 1', 'HP'])
 # sort multi columns - first column ascending, 2nd column descending
 poke_df.sort_values(['Type 1', 'HP'], ascending=[1,0])
+
+
+
 
 
 #####   MAKE CHANGES to DATA
@@ -71,6 +81,10 @@ cols = list(poke_df.columns.values)
 poke_df = poke_df[cols[0:4] + [cols[-1]] + cols[4:12]]
 
 poke_df.head(5)
+
+
+
+
 
 #####   SAVING DATA / EXPORTING INTO DESIRED FORMAT
 # poke_df.to_csv('modified.csv')
@@ -104,9 +118,41 @@ poke_df.loc[poke_df['Name'].str.startswith('Pi')]
 ## same w/ regex
 poke_df.loc[poke_df['Name'].str.contains('^pi[a-z]*', flags=re.I, regex=True)]
 
+
+
+
 #####   CONDITIONAL CHANGES
+# change any row w/ Type 1 = Fire to Type 1 = 'Flamer'
+poke_df.loc[poke_df['Type 1'] == 'Fire', 'Type 1'] = 'Flamer'
+poke_df.loc[poke_df['Type 1'] == 'Flamer', 'Type 1'] = 'Fire'   # change it back
+
+# change another column based on filtering another
+poke_df.loc[poke_df['Type 1'] == 'Fire', 'Legendary'] = True
+## change back using checkpoint
+poke_df = pd.read_csv('modified.csv')
+
+# modify multiple columns w/ passing a list
+# poke_df.loc[poke_df['Total_Stat'] > 500, ['Generation', 'Legendary']] = 'TEST VALUE'  ### modifies both to 'TEST VALUE'
+# poke_df.loc[poke_df['Total_Stat'] > 500, ['Generation', 'Legendary']] = ['TEST VALUE', 'I AM LEGENDARY TEST']  ### modifies each uniquely
 
 
+
+
+#####   AGGREGATE STATISTICS (Groupby)
+# grouping pokes by their type 1 and mean'ing all other stats
+poke_df.groupby(poke_df['Type 1']).mean(numeric_only=True).sort_values('Total_Stat', ascending=False)
+
+# grouping pokes by their type 1 and summing all their stats
+poke_df.groupby(poke_df['Type 1']).sum(numeric_only=True)   ## numberic_only b/c it shows weird concat'd string names w/o param
+
+# grouping pokes by their type 1 and counting how many
+poke_df.groupby(poke_df['Type 1']).count()
+## can clean this up by adding a count column to dataframe .. then only grabbing that 
+count_pokes = poke_df
+count_pokes['count'] = 1   ## adding count column and filling 1 for every row
+count_pokes.groupby(count_pokes['Type 1']).count()['count'] # group by type1, count, only get 'count' column
+## can group by multiple columns
+count_pokes.groupby(['Type 1', 'Type 2']).count()['count'] # group by type1 and type2, count, only get 'count' column
 
 
 
