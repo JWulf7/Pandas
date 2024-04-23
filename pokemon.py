@@ -157,5 +157,15 @@ count_pokes.groupby(['Type 1', 'Type 2']).count()['count'] # group by type1 and 
 
 
 
+#####   LARGE DATA
+## read in large file chunks at a time
+new_df = pd.DataFrame(columns=poke_df.columns)  # can create new dataframe
+for df in pd.read_csv('modified.csv', chunksize=5):
+    # print(df)
+    results = df.groupby(['Type 1']).count()
+    ## building new dataframe w/ aggregated chunks counts
+    new_df = pd.concat([new_df, results])
+
+
 
 
